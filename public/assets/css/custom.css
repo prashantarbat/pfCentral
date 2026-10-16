@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.hold-transition.register-page {
+    display: flex;
+    justify-content: flex-end; /* Aligns content to the right */
+    align-items: center;
+    min-height: 100vh;
+    padding-right: 50px; /* Adjust based on how far from the right edge you want the box */
+}
+
+.register-box {
+    width: 100%; /* Allows the box to be responsive */
+    max-width: 400px; /* Adjust based on your preference */
+}

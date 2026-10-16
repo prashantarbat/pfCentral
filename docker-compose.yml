@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pfcentral-app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      CI_ENVIRONMENT: production
+      app.baseURL: "http://localhost:8080"
+      database.default.hostname: db
+      database.default.database: pfcentral
+      database.default.username: pfcentral_user
+      database.default.password: pfcentral_secure_pass_2026
+      database.default.DBDriver: MySQLi
+    volumes:
+      - pfcentral-storage:/var/www/html/writable
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:10.11
+    container_name: pfcentral-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_master_password_change_me
+      MYSQL_DATABASE: pfcentral
+      MYSQL_USER: pfcentral_user
+      MYSQL_PASSWORD: pfcentral_secure_pass_2026
+    volumes:
+      - pfcentral-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pfcentral-storage:
+  pfcentral-db-data:

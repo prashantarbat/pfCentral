@@ -1,0 +1,93 @@
+.encircled {
+      display: inline-block;
+      padding: 0em;
+      text-align: center;
+      width: 39px;
+      height: 30px;
+      border-radius: 30%;
+      background: Tomato;
+      border: 2px solid #c65353;
+    }
+.cchange {
+animation: color-change 2s infinite;
+}
+
+@keyframes color-change {
+0% { color: #0f1a2e; }
+50% { color: #000000; }
+100% { color: #BF360C; }
+}
+
+.animate-charcter {
+/*text-transform: uppercase;*/
+background-image: linear-gradient(
+-225deg,
+#BF360C 0%,
+#000000 29%,
+#ff1361 67%,
+#880E4F 100%
+);
+background-size: auto auto;
+background-clip: border-box;
+background-size: 200% auto;
+color: #fff;
+background-clip: text;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: textclip 7s linear infinite;
+display: inline-block;
+}
+
+@keyframes textclip {
+to {
+background-position: 200% center;
+}
+}
+#spin {
+color: red;
+}
+
+#spin:after {
+content: "";
+animation: spin 15s  infinite;
+}
+.modal-header.primary {
+  color: #181010;
+  background-color: #fdb26c;
+  border-color: #fdb26c;
+}
+.modal-backdrop {
+  background-color: #fc7609;
+}
+.modal-body {
+  position: relative;
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 15px;
+}
+.blink_me {
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.btn {
+  background-color: brown;
+  color: #fff;
+  transition: all .7s;
+}
+.btn:hover {
+  color: brown;
+  background-color: #fff;
+  border-color: brown;
+}

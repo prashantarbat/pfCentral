@@ -1,0 +1,89 @@
+#!/bin/sh
+
+save=1  # Set to 1 to save JSON locally, 0 to disable
+
+# Detect active WireGuard interfaces
+interfaces=$(wg show interfaces)
+
+# If no interfaces found, exit
+if [ -z "$interfaces" ]; then
+    echo "No WireGuard interfaces found."
+    exit 0
+fi
+
+# Build JSON lists
+mpls_json=""
+ill_json=""
+bdr_json=""
+first=1
+
+for iface in $interfaces; do
+    # Try to get local IP first using ifconfig (FreeBSD compatible)
+    local_ip=$(ifconfig "$iface" 2>/dev/null | awk '/inet / {print $2}')
+    if [ -z "$local_ip" ]; then
+        continue
+    fi
+    
+    # Try to get far IP directly (on FreeBSD it shows as: inet X.X.X.X --> Y.Y.Y.Y)
+    far_ip=$(ifconfig "$iface" 2>/dev/null | awk '/inet / && /-->/ {print $4}')
+    
+    # If no far IP detected, fallback to calculating it (local_ip + 1)
+    if [ -z "$far_ip" ]; then
+        far_ip=$(echo "$local_ip" | awk -F. '{printf "%d.%d.%d.%d", $1, $2, $3, $4+1}')
+    fi
+    
+    # Ping far IP with 1 second timeout (handles both FreeBSD -t and Linux -W syntax)
+    if ping -c 1 -t 1 "$far_ip" >/dev/null 2>&1; then
+        status=1
+    elif ping -c 1 -W 1 "$far_ip" >/dev/null 2>&1; then
+        status=1
+    else
+        status=0
+    fi
+    
+    # Append to category lists
+    if [ $first -eq 0 ]; then
+        mpls_json="$mpls_json,"
+        ill_json="$ill_json,"
+        bdr_json="$bdr_json,"
+    fi
+    
+    mpls_json="$mpls_json\"$iface\":$status"
+    ill_json="$ill_json\"$iface\":$status"
+    bdr_json="$bdr_json\"$iface\":$status"
+    
+    first=0
+done
+
+# Assemble full JSON payload
+json="{\"mpls\":{$mpls_json},\"ill\":{$ill_json},\"bdr\":{$bdr_json}}"
+
+# Optionally save JSON to file locally
+if [ "$save" -eq 1 ]; then
+    echo "$json" > /tmp/wg-status.json
+fi
+
+echo "Sending payload: $json"
+
+# Send via POST to the NOC server and capture response and status code
+response=$(curl -k -s -w "\nHTTP_CODE:%{http_code}" -X POST https://noc.akolaurban.local/wgreceive \
+     -H "Content-Type: application/json" \
+     -d "$json")
+
+# Parse HTTP status code and response body
+http_code=$(echo "$response" | grep "HTTP_CODE:" | awk -F: '{print $2}')
+body=$(echo "$response" | grep -v "HTTP_CODE:")
+
+if [ -z "$http_code" ] || [ "$http_code" -eq 0 ]; then
+    echo "⚠️ ERROR: Could not connect to NOC server (https://noc.akolaurban.local)!"
+    echo "Attempting to show the exact connection error below:"
+    # Re-run without silent flag to show the verbose network error
+    curl -k -X POST https://noc.akolaurban.local/wgreceive \
+         -H "Content-Type: application/json" \
+         -d "$json"
+else
+    echo "----------------------------------------"
+    echo "🟢 Server HTTP Status: $http_code"
+    echo "🟢 Server Response: $body"
+    echo "----------------------------------------"
+fi

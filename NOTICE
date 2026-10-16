@@ -1,0 +1,17 @@
+pfCentral
+Copyright 2026 pfCentral Contributors & Micron InfoSec
+
+This product includes software developed by the pfCentral Open-Source Project.
+Licensed under the Apache License, Version 2.0 (the "License").
+
+Third-Party Notices and Acknowledgements:
+- CodeIgniter 4 framework (MIT License) - Copyright (c) 2019-2026 CodeIgniter Foundation
+- CodeIgniter Shield authentication library (MIT License) - Copyright (c) CodeIgniter Foundation
+- phpseclib SSH & Cryptography library (MIT License) - Copyright (c) phpseclib authors
+- Bootstrap 5 (MIT License) - Copyright (c) 2011-2026 The Bootstrap Authors
+- SweetAlert2 (MIT License) - Copyright (c) Limon Monte
+- Tabler Icons / Font Awesome (MIT / SIL OFL License)
+
+pfSense is a registered trademark of Electric Sheep Fencing, LLC.
+pfCentral is an independent open-source management platform and is not affiliated with,
+sponsored by, or endorsed by Netgate, Rubicon Communications, or Electric Sheep Fencing, LLC.

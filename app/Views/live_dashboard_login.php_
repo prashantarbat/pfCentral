@@ -1,0 +1,101 @@
+<div class="content-wrapper">
+    <div class="content-header">
+        <h4><?= esc($title) ?></h4>
+    </div>
+
+    <?php if (!empty($alerts)): ?>
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                <?php foreach ($alerts as $alert): ?>
+                    <li><?= esc($alert) ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Logged LIVE Connectivity</h5>
+        </div>
+
+        <div class="card-body table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Branch Name</th>
+                        <th>Branch IP</th>
+                        <th>MPLS</th>
+                        <th>ILL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach ($data as $row): ?>
+                        <tr>
+                            <td><?= esc($row['name']) ?></td>
+                            <td><?= esc($row['ip']) ?></td>
+
+                            <!-- ==================== MPLS COLUMN ==================== -->
+                            <td>
+                                <?php if ($row['mpls_iface']): ?>
+                                    
+                                    <!-- ICON -->
+                                    <?php if ($row['mpls_status'] == 1): ?>
+                                        <span class="text-success font-weight-bold">🟢</span>
+                                    <?php elseif ($row['mpls_status'] === 0): ?>
+                                        <span class="text-danger font-weight-bold">🔴</span>
+                                    <?php else: ?>
+                                        <span class="text-secondary font-weight-bold">⚪</span>
+                                    <?php endif; ?>
+
+                                    <!-- INTERFACE NAME -->
+                                    <strong><?= esc($row['mpls_iface']) ?></strong><br>
+
+                                    <!-- COUNTS -->
+                                    <small>
+                                        Today: <strong><?= esc($row['mpls_today']) ?></strong> |
+                                        7D: <strong><?= esc($row['mpls_7']) ?></strong> |
+                                        Total: <strong><?= esc($row['mpls_total']) ?></strong>
+                                    </small>
+
+                                <?php else: ?>
+                                    <span class="text-muted">N/A</span>
+                                <?php endif; ?>
+                            </td>
+
+                            <!-- ==================== ILL COLUMN ==================== -->
+                            <td>
+                                <?php if ($row['ill_iface']): ?>
+                                    
+                                    <!-- ICON -->
+                                    <?php if ($row['ill_status'] == 1): ?>
+                                        <span class="text-success font-weight-bold">🟢</span>
+                                    <?php elseif ($row['ill_status'] === 0): ?>
+                                        <span class="text-danger font-weight-bold">🔴</span>
+                                    <?php else: ?>
+                                        <span class="text-secondary font-weight-bold">⚪</span>
+                                    <?php endif; ?>
+
+                                    <!-- INTERFACE NAME -->
+                                    <strong><?= esc($row['ill_iface']) ?></strong><br>
+
+                                    <!-- COUNTS -->
+                                    <small>
+                                        Today: <strong><?= esc($row['ill_today']) ?></strong> |
+                                        7D: <strong><?= esc($row['ill_7']) ?></strong> |
+                                        Total: <strong><?= esc($row['ill_total']) ?></strong>
+                                    </small>
+
+                                <?php else: ?>
+                                    <span class="text-muted">N/A</span>
+                                <?php endif; ?>
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+name: Bug Report
+description: File a bug report to help improve pfCentral
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please do not include any real IP addresses, credentials, private keys, or actual company details.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. See error
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment Information
+      description: PHP version, Database type & version, pfCentral release, pfSense version.
+      placeholder: "PHP 8.2, MariaDB 10.11, pfCentral 1.0.0, pfSense Plus 23.09"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output
+      description: Relevant lines from `writable/logs/` (sanitized of all secrets).
+      render: shell
