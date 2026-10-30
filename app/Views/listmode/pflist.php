@@ -1810,10 +1810,24 @@ $(document).ready(function() {
 });
 </script>
 
+<!-- Export back-ends for buttons.html5: jszip writes the Excel file and pdfmake
+     renders the PDF. Buttons silently drops those two buttons when the library
+     is absent, which is why the PDF button never showed up on this page. They
+     load here only (about 1 MB uncompressed) instead of in the shared footer. -->
+<script src="<?= base_url('assets/template/') ?>plugins/jszip/jszip.min.js"></script>
+<script src="<?= base_url('assets/template/') ?>plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?= base_url('assets/template/') ?>plugins/pdfmake/vfs_fonts.js"></script>
+
 <script>
 // Global function for filter dropdowns
 function applyFilters() {
     $('#pfListTable').DataTable().ajax.reload();
+}
+
+// Stamp for the exported documents: resolved when the button is pressed, so the
+// file records the moment it was produced rather than the moment the page loaded.
+function exportStamp() {
+    return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'medium' }).format(new Date());
 }
 
 $(document).ready(function() {
@@ -1865,13 +1879,23 @@ $(document).ready(function() {
                 extend: "pdf",
                 text: '<i class="fas fa-file-pdf"></i> PDF',
                 className: 'btn btn-sm btn-outline-danger',
+                // The device table is wider than a portrait page: landscape keeps
+                // every visible column on one row instead of truncating them.
                 orientation: 'landscape',
+                pageSize: 'A4',
+                title: <?= json_encode(($app_name ?? 'pfCentral') . ' — Device Inventory') ?>,
+                messageTop: function () {
+                    return 'Exported: ' + exportStamp();
+                },
                 exportOptions: { columns: ':visible' }
             },
             {
                 extend: "print",
                 text: '<i class="fas fa-print"></i>',
                 className: 'btn btn-sm btn-outline-dark',
+                messageTop: function () {
+                    return 'Exported: ' + exportStamp();
+                },
                 exportOptions: { columns: ':visible' }
             }
         ],
