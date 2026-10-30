@@ -1,8 +1,8 @@
 # pfCentral — Centralized pfSense® Firewall Management Platform
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%20%7C%208.2%20%7C%208.3-777bb4.svg)](https://www.php.net/)
-[![Framework](https://img.shields.io/badge/Framework-CodeIgniter_4.6-EF4444.svg)](https://codeigniter.com/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2%20%7C%208.3-777bb4.svg)](https://www.php.net/)
+[![Framework](https://img.shields.io/badge/Framework-CodeIgniter_4.7-EF4444.svg)](https://codeigniter.com/)
 [![Commercial & MSP](https://img.shields.io/badge/Commercial_Services-pfcentral.microninfo.com-10B981.svg)](https://pfcentral.microninfo.com/)
 [![Build Status](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)](tests/)
 
@@ -107,7 +107,7 @@ Access the portal at `http://localhost:8080/login` (or your server's IP address)
 ### Option B: Bare-Metal Installation (Ubuntu / Debian / RHEL / Windows)
 
 #### 1. System Requirements
-- **PHP**: 8.1, 8.2, or 8.3 with extensions: `curl`, `intl`, `mbstring`, `mysqli` (or `sqlite3`), `xml`, `openssl`, `zip`.
+- **PHP**: 8.2 or 8.3 with extensions: `curl`, `intl`, `mbstring`, `mysqli` (or `sqlite3`), `xml`, `openssl`, `zip`.
 - **Database**: MariaDB 10.5+ / MySQL 8.0+ or SQLite 3.
 - **Web Server**: Apache (`mod_rewrite` enabled) or Nginx.
 

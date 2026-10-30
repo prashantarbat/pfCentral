@@ -47,4 +47,14 @@ class Migrations extends BaseConfig
      * - Y_m_d_His_
      */
     public string $timestampFormat = 'Y-m-d-His_';
+
+    /**
+     * --------------------------------------------------------------------------
+     * Lock Migrations
+     * --------------------------------------------------------------------------
+     *
+     * When enabled, the migration runner acquires a table lock while a batch
+     * runs so two concurrent deployments cannot apply the same migration.
+     */
+    public bool $lock = false;
 }

@@ -284,7 +284,7 @@ $routes->get('compliance', 'ComplianceController::index');
 $routes->get('compliance/export-csv', 'ComplianceController::exportCsv');
 $routes->get('compliance/device-report/(:num)', 'ComplianceController::deviceReport/$1');
 $routes->get('compliance/cve-matrix/(:num)', 'ComplianceController::cveMatrix/$1');
-$routes->match(['get', 'post'], 'compliance/sync-cve', 'ComplianceController::syncCve');
+$routes->match(['GET', 'POST'], 'compliance/sync-cve', 'ComplianceController::syncCve');
 $routes->post('compliance/save-mitigation', 'ComplianceController::saveMitigation');
 $routes->get('pfsense/ping/(:num)', 'PfSenseController::pingDevice/$1');
 
